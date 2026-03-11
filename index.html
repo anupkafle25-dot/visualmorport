@@ -94,11 +94,17 @@
                 display: none !important;
                 pointer-events: none !important;
             }
+            /* Kill noise overlay on mobile to guarantee tappability */
+            body::before {
+                pointer-events: none !important;
+                z-index: -1 !important;
+            }
             /* Ensure all interactive elements are above overlays */
             .hero {
                 z-index: 2;
             }
             .hero-content {
+                position: relative;
                 z-index: 10;
             }
             .hero-buttons {
@@ -109,14 +115,20 @@
                 position: relative;
                 z-index: 10;
             }
+            .hero-grid {
+                pointer-events: none !important;
+            }
+            .play-overlay {
+                pointer-events: none !important;
+            }
             .navbar {
                 z-index: 1000;
             }
             .menu-toggle {
                 position: relative;
                 z-index: 1002;
-                min-width: 44px;
-                min-height: 44px;
+                min-width: 48px;
+                min-height: 48px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -128,6 +140,15 @@
             /* Disable magnetic transform on mobile */
             .magnetic-btn {
                 transform: none !important;
+            }
+            /* Ensure glass-card pseudo-elements don't steal taps */
+            .glass-card::before,
+            .liquid-glass::before {
+                pointer-events: none !important;
+            }
+            /* Section padding should not block clicks */
+            .section-padding {
+                z-index: 2;
             }
         }
 
@@ -189,15 +210,19 @@
             inset: 0;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
             pointer-events: none;
-            z-index: 1;
+            z-index: -1;
             opacity: 0.5;
         }
 
         /* ===== UTILITY ===== */
         .container { max-width: 1240px; margin: 0 auto; padding: 0 36px; }
         .section-padding { padding: 180px 0; position: relative; z-index: 2; }
-        a { cursor: none; }
-        button { cursor: none; }
+
+        /* Desktop-only custom cursor on interactive elements */
+        @media (hover: hover) and (pointer: fine) {
+            a { cursor: none; }
+            button { cursor: none; }
+        }
 
         /* ===== SERIF ACCENT CLASS ===== */
         .serif-accent {
@@ -1662,9 +1687,9 @@
                     </div>
                     <p class="testimonial-text">Absolutely outstanding work. The cinematic quality of the edits elevated our property listings to a whole new level. Highly recommended!</p>
                     <div class="testimonial-author">
-                        <div class="author-avatar">JA</div>
+                        <div class="author-avatar">JH</div>
                         <div class="author-info">
-                            <h5>James Anderson</h5>
+                            <h5>James Henderson</h5>
                             <span>Real Estate Developer</span>
                         </div>
                     </div>
@@ -1682,9 +1707,9 @@
                     </div>
                     <p class="testimonial-text">Fast turnaround and incredible attention to detail. Visual Morp understood exactly what we needed for our luxury property campaign.</p>
                     <div class="testimonial-author">
-                        <div class="author-avatar">SM</div>
+                        <div class="author-avatar">EM</div>
                         <div class="author-info">
-                            <h5>Sarah Miller</h5>
+                            <h5>Emma Sullivan</h5>
                             <span>Property Agent</span>
                         </div>
                     </div>
@@ -1702,9 +1727,9 @@
                     </div>
                     <p class="testimonial-text">The color grading alone is worth it. Every frame looks like it belongs in a magazine. We've been working together for over a year now.</p>
                     <div class="testimonial-author">
-                        <div class="author-avatar">RT</div>
+                        <div class="author-avatar">MT</div>
                         <div class="author-info">
-                            <h5>Robert Thompson</h5>
+                            <h5>Michael Torres</h5>
                             <span>Luxury Realtor</span>
                         </div>
                     </div>
@@ -1722,9 +1747,9 @@
                     </div>
                     <p class="testimonial-text">Professional, creative, and always on time. Visual Morp has become our go-to partner for all real estate video content.</p>
                     <div class="testimonial-author">
-                        <div class="author-avatar">ED</div>
+                        <div class="author-avatar">LC</div>
                         <div class="author-info">
-                            <h5>Emily Davis</h5>
+                            <h5>Lauren Chen</h5>
                             <span>Marketing Director</span>
                         </div>
                     </div>
@@ -1742,9 +1767,9 @@
                     </div>
                     <p class="testimonial-text">Exceptional quality that truly captures the essence of each property. The edits are smooth, engaging, and always on brand.</p>
                     <div class="testimonial-author">
-                        <div class="author-avatar">MS</div>
+                        <div class="author-avatar">RB</div>
                         <div class="author-info">
-                            <h5>Michael Sterling</h5>
+                            <h5>Robert Blake</h5>
                             <span>Property Investor</span>
                         </div>
                     </div>
@@ -1762,9 +1787,9 @@
                     </div>
                     <p class="testimonial-text">From drone footage to interior walkthroughs, they handle everything with perfection. A truly premium editing service.</p>
                     <div class="testimonial-author">
-                        <div class="author-avatar">JM</div>
+                        <div class="author-avatar">CW</div>
                         <div class="author-info">
-                            <h5>Jessica Martinez</h5>
+                            <h5>Charlotte Wilson</h5>
                             <span>Architecture Firm</span>
                         </div>
                     </div>
@@ -2006,15 +2031,6 @@
         const navLinks = document.getElementById('navLinks');
         const navOverlay = document.getElementById('navOverlay');
 
-        function toggleMenu(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            menuToggle.classList.toggle('active');
-            navLinks.classList.toggle('open');
-            navOverlay.classList.toggle('active');
-            document.body.style.overflow = navLinks.classList.contains('open') ? 'hidden' : '';
-        }
-
         function closeMenu() {
             menuToggle.classList.remove('active');
             navLinks.classList.remove('open');
@@ -2022,39 +2038,34 @@
             document.body.style.overflow = '';
         }
 
-        // Use both click and touchend for maximum mobile compatibility
-        menuToggle.addEventListener('click', toggleMenu);
-        menuToggle.addEventListener('touchend', function(e) {
+        // Single click handler — works on both desktop and mobile
+        // Do NOT add touchend as well, because mobile fires BOTH touchend + click = double toggle
+        menuToggle.addEventListener('click', function(e) {
             e.preventDefault();
-            toggleMenu(e);
-        }, { passive: false });
+            e.stopPropagation();
+            menuToggle.classList.toggle('active');
+            navLinks.classList.toggle('open');
+            navOverlay.classList.toggle('active');
+            document.body.style.overflow = navLinks.classList.contains('open') ? 'hidden' : '';
+        });
 
         navOverlay.addEventListener('click', closeMenu);
-        navOverlay.addEventListener('touchend', function(e) {
-            e.preventDefault();
-            closeMenu();
-        }, { passive: false });
 
-        // Make sure mobile nav links close menu and navigate
+        // Nav links — close menu and smooth scroll
         document.querySelectorAll('.nav-links a').forEach(link => {
-            function handleNavClick(e) {
+            link.addEventListener('click', function(e) {
                 e.preventDefault();
                 closeMenu();
-                const target = document.querySelector(link.getAttribute('href'));
+                const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
                     setTimeout(() => {
                         window.scrollTo({
                             top: target.getBoundingClientRect().top + window.scrollY - 80,
                             behavior: 'smooth'
                         });
-                    }, 100);
+                    }, 150);
                 }
-            }
-            link.addEventListener('click', handleNavClick);
-            link.addEventListener('touchend', function(e) {
-                e.preventDefault();
-                handleNavClick(e);
-            }, { passive: false });
+            });
         });
 
         // ===== SCROLL FADE-IN (Intersection Observer) =====
@@ -2069,8 +2080,8 @@
 
         document.querySelectorAll('.fade-in').forEach(el => fadeObserver.observe(el));
 
-        // ===== SMOOTH SCROLL for hero buttons =====
-        document.querySelectorAll('.hero-buttons a[href^="#"]').forEach(anchor => {
+        // ===== SMOOTH SCROLL for all internal anchor links =====
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
@@ -2081,6 +2092,12 @@
                     });
                 }
             });
+        });
+
+        // ===== ENSURE EXTERNAL LINKS WORK ON MOBILE =====
+        // For links with target="_blank", ensure they open properly on touch
+        document.querySelectorAll('a[target="_blank"]').forEach(link => {
+            link.style.touchAction = 'manipulation';
         });
 
         // ===== VIDEO FALLBACK =====
