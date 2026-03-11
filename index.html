@@ -159,6 +159,15 @@
         ::-webkit-scrollbar-thumb:hover { background: var(--accent-2); }
 
         /* ===== CUSTOM CURSOR ===== */
+        /* Hide on touch devices immediately via CSS — don't wait for JS */
+        @media (hover: none) and (pointer: coarse) {
+            .cursor-dot, .cursor-ring {
+                display: none !important;
+                pointer-events: none !important;
+                visibility: hidden !important;
+            }
+        }
+
         .cursor-dot {
             position: fixed;
             width: 6px;
@@ -196,6 +205,9 @@
         }
 
         /* ===== CURSOR TRAIL CANVAS ===== */
+        @media (hover: none) and (pointer: coarse) {
+            #cursorTrail { display: none !important; pointer-events: none !important; }
+        }
         #cursorTrail {
             position: fixed;
             inset: 0;
@@ -1875,7 +1887,7 @@
     <!-- ===== JAVASCRIPT ===== -->
     <script>
         // ===== TOUCH DEVICE DETECTION =====
-        const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+        const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0) || window.matchMedia('(hover: none) and (pointer: coarse)').matches;
 
         // ===== CUSTOM CURSOR (desktop only) =====
         const cursorDot = document.getElementById('cursorDot');
