@@ -1357,7 +1357,8 @@
             }
 
             .nav-links.open { right: 0; }
-            .nav-overlay { display: block; }
+            .nav-overlay { display: block; pointer-events: none; }
+            .nav-overlay.active { pointer-events: auto; }
             .menu-toggle { display: flex; }
 
             .video-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
