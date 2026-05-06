@@ -1,16 +1,20 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { Play, Pause } from 'lucide-react';
+import { Play } from 'lucide-react';
 
 const MAIN_VIDEO = 'https://xhwptvvbfezaoswfuyrb.supabase.co/storage/v1/object/sign/VisualMorp/30%20Bensley%20Lane,%20Hamilton.mp4?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84ZDFkMTA1Ny0xYjU3LTQwZGUtYTA0OC1lYzZjNzZkNGVlNDciLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJWaXN1YWxNb3JwLzMwIEJlbnNsZXkgTGFuZSwgSGFtaWx0b24ubXA0IiwiaWF0IjoxNzc4MDY0ODE4LCJleHAiOjE4MDk2MDA4MTh9.KEolpHNbDxv1lklwjxi-4tT7yjdPCqqLxlQcMLXnZJI';
 
 // Placeholder video URLs — replace these with real project videos
 const DUMMY_VIDEOS = [
-  'https://assets.mixkit.co/videos/preview/mixkit-aerial-view-of-a-city-at-sunset-11-large.mp4',
-  'https://assets.mixkit.co/videos/preview/mixkit-a-woman-walking-in-a-modern-city-4394-large.mp4',
-  'https://assets.mixkit.co/videos/preview/mixkit-white-sand-beach-and-palm-trees-1564-large.mp4',
-  'https://assets.mixkit.co/videos/preview/mixkit-tree-with-yellow-flowers-1173-large.mp4',
-  'https://assets.mixkit.co/videos/preview/mixkit-man-doing-yoga-on-top-of-a-mountain-4045-large.mp4',
+  "https://xhwptvvbfezaoswfuyrb.supabase.co/storage/v1/object/sign/VisualMorp/Comp%201%202%203%20Chf3%20Prob3.mp4?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84ZDFkMTA1Ny0xYjU3LTQwZGUtYTA0OC1lYzZjNzZkNGVlNDciLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJWaXN1YWxNb3JwL0NvbXAgMSAyIDMgQ2hmMyBQcm9iMy5tcDQiLCJpYXQiOjE3NzgwNjQ4NzcsImV4cCI6MTgwOTYwMDg3N30._v2vbxKwi6SHfR9UR_sBeKRwe7F7RmFQMUeYUwPiG_E",
+
+  "https://xhwptvvbfezaoswfuyrb.supabase.co/storage/v1/object/sign/VisualMorp/Downtown%20Promo%20Video.mp4?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84ZDFkMTA1Ny0xYjU3LTQwZGUtYTA0OC1lYzZjNzZkNGVlNDciLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJWaXN1YWxNb3JwL0Rvd250b3duIFByb21vIFZpZGVvLm1wNCIsImlhdCI6MTc3ODA2NDg4OSwiZXhwIjoxODA5NjAwODg5fQ.auoe4UAdYL1NJMsdqI5Ex3RuKvSioN0YSqF1ZPUpGv8",
+
+  "https://xhwptvvbfezaoswfuyrb.supabase.co/storage/v1/object/sign/VisualMorp/Ecr%20138%20Property%20Video%20-%20Andrea.mp4?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84ZDFkMTA1Ny0xYjU3LTQwZGUtYTA0OC1lYzZjNzZkNGVlNDciLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJWaXN1YWxNb3JwL0VjciAxMzggUHJvcGVydHkgVmlkZW8gLSBBbmRyZWEubXA0IiwiaWF0IjoxNzc4MDY0ODk2LCJleHAiOjE4MDk2MDA4OTZ9.AmIx35yFvW63MhEoCV2_Bo3G33eZiXyDyDdUhjKrbaA",
+
+  "https://xhwptvvbfezaoswfuyrb.supabase.co/storage/v1/object/sign/VisualMorp/Lamesa%20Property%20Video%20-%20Chris%20Beckett.mp4?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84ZDFkMTA1Ny0xYjU3LTQwZGUtYTA0OC1lYzZjNzZkNGVlNDciLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJWaXN1YWxNb3JwL0xhbWVzYSBQcm9wZXJ0eSBWaWRlbyAtIENocmlzIEJlY2tldHQubXA0IiwiaWF0IjoxNzc4MDY0OTE0LCJleHAiOjE4MDk2MDA5MTR9.qBGeP7paod4q_-k7N6reeHwKZ1VkJcM3crbT1ai6-W8",
+
+  "https://xhwptvvbfezaoswfuyrb.supabase.co/storage/v1/object/sign/VisualMorp/V1%20Auburn%20Property%20Video%20-%20Andrea%20Dlc.mp4?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84ZDFkMTA1Ny0xYjU3LTQwZGUtYTA0OC1lYzZjNzZkNGVlNDciLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJWaXN1YWxNb3JwL1YxIEF1YnVybiBQcm9wZXJ0eSBWaWRlbyAtIEFuZHJlYSBEbGMubXA0IiwiaWF0IjoxNzc4MDY0OTI1LCJleHAiOjE4MDk2MDA5MjV9.0IiWRG_923hDJOdedAnuJTE5JuiVY4hpxcp_COKCAdI"
 ];
 
 const projects = [
@@ -27,19 +31,6 @@ function VideoCard({ project, index }: { project: typeof projects[0]; index: num
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState(false);
   const [hovered, setHovered] = useState(false);
-  const [playing, setPlaying] = useState(false);
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-    if (hovered) {
-      video.play().then(() => setPlaying(true)).catch(() => {});
-    } else {
-      video.pause();
-      video.currentTime = 0;
-      setPlaying(false);
-    }
-  }, [hovered]);
 
   return (
     <motion.div
@@ -48,7 +39,7 @@ function VideoCard({ project, index }: { project: typeof projects[0]; index: num
       viewport={{ once: true, margin: '-60px' }}
       transition={{ duration: 0.65, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
       className="group relative rounded-2xl overflow-hidden bg-[#e8e4dd] shadow-card hover:shadow-elevated transition-shadow duration-500 cursor-pointer"
-      style={{ aspectRatio: index === 0 ? '16/9' : '4/3' }}
+      style={{ aspectRatio: '9/16' }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
@@ -68,6 +59,7 @@ function VideoCard({ project, index }: { project: typeof projects[0]; index: num
         <video
           ref={videoRef}
           src={project.src}
+          autoPlay
           muted
           loop
           playsInline
@@ -83,19 +75,6 @@ function VideoCard({ project, index }: { project: typeof projects[0]; index: num
       {/* Overlay */}
       <div className={`absolute inset-0 bg-gradient-to-t from-[#1a1714]/70 via-transparent to-transparent transition-opacity duration-300 ${hovered ? 'opacity-100' : 'opacity-0'}`} />
 
-      {/* Play icon */}
-      <div className={`absolute inset-0 flex items-center justify-center transition-all duration-300 ${hovered ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}>
-        <div className="w-12 h-12 rounded-full glass flex items-center justify-center shadow-elevated">
-          {playing ? <Pause size={16} className="text-[#1a1714]" /> : <Play size={16} className="text-[#1a1714] ml-0.5" />}
-        </div>
-      </div>
-
-      {/* Tag */}
-      <div className={`absolute top-4 left-4 transition-all duration-300 ${hovered ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'}`}>
-        <span className="glass text-xs font-medium text-[#1a1714] px-3 py-1 rounded-full">
-          {project.tag}
-        </span>
-      </div>
     </motion.div>
   );
 }
@@ -123,16 +102,10 @@ export default function Portfolio() {
         </motion.div>
 
         {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
-          {/* Featured (spans 2 cols on lg) */}
-          <div className="lg:col-span-2">
-            <VideoCard project={projects[0]} index={0} />
-          </div>
-          <VideoCard project={projects[1]} index={1} />
-          <VideoCard project={projects[2]} index={2} />
-          <VideoCard project={projects[3]} index={3} />
-          <VideoCard project={projects[4]} index={4} />
-          <VideoCard project={projects[5]} index={5} />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
+          {projects.map((project, index) => (
+            <VideoCard key={project.id} project={project} index={index} />
+          ))}
         </div>
 
         {/* CTA */}
