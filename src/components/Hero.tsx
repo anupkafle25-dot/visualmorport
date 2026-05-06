@@ -2,8 +2,7 @@ import { useRef, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Play, ChevronDown } from 'lucide-react';
 
-const MAIN_VIDEO = 'https://xhwptvvbfezaoswfuyrb.supabase.co/storage/v1/object/sign/VisualMorp/715%20Fair%20Oaks%20Dr%20(1).mp4?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtl eV84ZDFkMTA1Ny0xYjU3LTQwZGUtYTA0OC1lYzZjNzZkNGVlNDciLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJWaXN1YWxNb3JwLzcxNSBGYWlyIE9ha3MgRHIgKDEpLm1wNCIsImlhdCI6MTc3ODA3NDE2NSwiZXhwIjoxODA5NjEwMTY1fQ.QBZYuFwdVPZix7u81ww1emIG70Qcs3HUdY2FhFFU3yY';
-
+const MAIN_VIDEO = 'https://xhwptvvbfezaoswfuyrb.supabase.co/storage/v1/object/sign/VisualMorp/715%20Fair%20Oaks%20Dr%20(1).mp4?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84ZDFkMTA1Ny0xYjU3LTQwZGUtYTA0OC1lYzZjNzZkNGVlNDciLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJWaXN1YWxNb3JwLzcxNSBGYWlyIE9ha3MgRHIgKDEpLm1wNCIsImlhdCI6MTc3ODA3NDM1OSwiZXhwIjoxODA5NjEwMzU5fQ.SpsACQXbv3RTeAPhZ9yJ2V3S37S-oLTzgLSXBjac1nw';
 export default function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [videoLoaded, setVideoLoaded] = useState(false);
