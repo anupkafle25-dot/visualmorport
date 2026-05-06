@@ -21,7 +21,7 @@ const footerLinks = {
   Connect: [
     { label: 'visualmorp@gmail.com', href: 'mailto:visualmorp@gmail.com' },
     { label: '@visualmorp.co', href: 'https://instagram.com/visualmorp.co' },
-    { label: 'WhatsApp', href: 'https://wa.me/15550000000' },
+    { label: 'WhatsApp', href: 'https://wa.me/+917986021937' },
   ],
 };
 
