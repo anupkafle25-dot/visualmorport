@@ -40,7 +40,7 @@ const contactLinks = [
     icon: WhatsAppIcon,
     label: 'WhatsApp',
     value: '+917986021937',
-    href: 'https://wa.me/917986021937',
+    href: 'https://wa.me/+917986021937',
     description: 'Fast response guaranteed',
   },
 ];
