@@ -39,8 +39,8 @@ const contactLinks = [
   {
     icon: WhatsAppIcon,
     label: 'WhatsApp',
-    value: '+1 (555) 000-0000',
-    href: 'https://wa.me/15550000000',
+    value: '+917986021937',
+    href: 'https://wa.me/917986021937',
     description: 'Fast response guaranteed',
   },
 ];
