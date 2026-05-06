@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Play, ChevronDown } from 'lucide-react';
 
-const MAIN_VIDEO = 'https://xhwptvvbfezaoswfuyrb.supabase.co/storage/v1/object/sign/VisualMorp/30%20Bensley%20Lane,%20Hamilton.mp4?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84ZDFkMTA1Ny0xYjU3LTQwZGUtYTA0OC1lYzZjNzZkNGVlNDciLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJWaXN1YWxNb3JwLzMwIEJlbnNsZXkgTGFuZSwgSGFtaWx0b24ubXA0IiwiaWF0IjoxNzc4MDY0ODE4LCJleHAiOjE4MDk2MDA4MTh9.KEolpHNbDxv1lklwjxi-4tT7yjdPCqqLxlQcMLXnZJI';
+const MAIN_VIDEO = 'https://xhwptvvbfezaoswfuyrb.supabase.co/storage/v1/object/sign/VisualMorp/715%20Fair%20Oaks%20Dr%20(1).mp4?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtl eV84ZDFkMTA1Ny0xYjU3LTQwZGUtYTA0OC1lYzZjNzZkNGVlNDciLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJWaXN1YWxNb3JwLzcxNSBGYWlyIE9ha3MgRHIgKDEpLm1wNCIsImlhdCI6MTc3ODA3NDE2NSwiZXhwIjoxODA5NjEwMTY1fQ.QBZYuFwdVPZix7u81ww1emIG70Qcs3HUdY2FhFFU3yY';
 
 export default function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null);
